@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var numbers = [20, 25, 25, 35, 15, 35, 15, 18, 58, 66, 45];
+    var n = [];
+    var quchong = function (event) {
+        for (var i = 0; i < event.length; i++) {
+            if (n.indexOf(event[i]) == -1) n.push(event[i]);
+        }
+
+    };
+    quchong(numbers);
+    n.sort();
+    console.log(n);
+</script>
+</body>
+</html>

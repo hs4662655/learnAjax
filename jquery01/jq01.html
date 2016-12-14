@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="jquery-1.11.2.js"></script>
+    <script>
+        $(function () {
+            $('#btn').click(function () {
+//              console.log(1);
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url:'jq01.php',
+                    success:function(data){
+                        console.log(data);
+                    },
+                    error:function(e){
+                        console.log(e);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<button id="btn">点击返回data</button>
+</body>
+</html>

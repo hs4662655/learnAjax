@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function JuiceMachine(fruit) {
+        this.fruit = fruit;
+        this.produceFruit = function () {
+            console.log(this.fruit);
+        }
+    }
+    JuiceMachine.open = function(){
+        console.log(123);
+    };
+    var apple = new JuiceMachine('apple');
+    //apple.produceFruit();
+    //apple.open();
+
+    JuiceMachine.prototype.open = function(){
+        console.log(2);
+    };
+    //apple.open();
+    JuiceMachine.open();
+
+</script>
+</body>
+</html>

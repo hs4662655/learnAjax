@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<button id="btn">点击查询图书馆的图书</button>
+<div id="bookinfo">
+
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+        var btn = document.getElementById('btn');
+        btn.onclick = function () {
+            //ajax异步请求
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject('Microsoft XMLHTTP');
+            }
+            xhr.open('get', './data.xml', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //返回的是个对象
+                    var data = xhr.responseXML;
+                    var bs = data.getElementsByTagName('bookstore')[0];
+                    console.log(bs);
+                    //解析获取的元素节点
+                    var book = bs.getElementsByTagName('book');
+                    var str = '';
+                    for (var i = 0; i < book.length; i++) {
+                        var name = book[i].getElementsByTagName('name')[0];
+                        var category = book[i].getElementsByTagName('category')[0];
+                        var desc = book[i].getElementsByTagName('desc')[0];
+                        str += '<tr><td>' + getNodeText(name) + '</td><td>' + getNodeText(category) + '</td><td>' + getNodeText(desc) + '</td></tr>'
+                    }
+                    //创建一个body节点
+                    var tBody = document.createElement('tbody');
+                    tBody.innerHTML = str;
+                    document.getElementById('bookinfo').appendChild(tBody);
+                }
+            };
+            xhr.send(null);
+            function getNodeText(node) {
+                if (window.ActiveXObject) {
+                    return node.text;
+                } else {
+                    if (node.nodeType == 1) {
+                        return node.textContent;
+
+                    }
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

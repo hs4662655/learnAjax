@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三级城市联动</title>
+    <style type="text/css">
+        #showInfo {
+            position: absolute;
+            width: 600px;
+            height: 500px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            background: lightgreen;
+            left: 50%;
+            margin-left: -300px;
+        }
+
+        #showInfo div {
+            float: left;
+            margin-left: 30px;
+            margin-top: 30px;
+            width: 160px;
+        }
+
+        #showInfo div select {
+            width: 160px;
+        }
+    </style>
+    <script type="text/javascript" src="jquery-1.11.2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var getList = function (id, pCode, flag,callback) {
+                $.ajax({
+                    url: 'data.php',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    data: {'citycode': pCode, 'flag': flag},
+                    success: function (data) {
+                        $.each(data, function (index, element) {
+                            var pro = $('<option></option>').attr('value', element.code).append(element.name);
+                            $('#' + id).append(pro);
+                        });
+                        if(typeof callback == 'function')
+                            callback();
+
+
+                    },
+                    error: function () {
+                        console.log('error');
+                    }
+                });
+            };
+            getList('province', 0, 1,function(){
+                $('#province').trigger('change');
+
+            });
+            $('#province').change(function () {
+                //获取选中的城市对应的code
+                var provinceCode = $(this).val();
+                //清空市里的内容
+                $('#city').empty();
+                //选中市
+                getList('city', provinceCode, 2,function(){
+                    $('#city').trigger('change');
+
+                });
+            });
+            $('#city').change(function(){
+                //获取选中的城市
+                var cityCode = $(this).val();
+                //清空area的内容
+                $('#area').empty();
+                getList('area',cityCode,3);
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+<div id="showInfo">
+    <div>
+        <select id="province">
+        </select>
+    </div>
+    <div>
+        <select id="city">
+        </select>
+    </div>
+    <div>
+        <select id="area">
+        </select>
+    </div>
+</div>
+</body>
+</html>
